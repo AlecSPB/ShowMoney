@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_get_money"
+            android:icon="@drawable/ic_menu_camera"
+            android:title="@string/str_get_money" />
+        <item
+            android:id="@+id/nav_refund"
+            android:icon="@drawable/ic_menu_gallery"
+            android:title="@string/str_reund" />
+        <item
+            android:id="@+id/nav_orders"
+            android:icon="@drawable/ic_menu_slideshow"
+            android:title="@string/str_orders" />
+        <item
+            android:id="@+id/nav_settings"
+            android:icon="@drawable/ic_menu_manage"
+            android:title="@string/str_settings" />
+        <item
+            android:id="@+id/nav_about"
+            android:icon="@drawable/ic_menu_manage"
+            android:title="@string/str_about" />
+    </group>
+
+</menu>
