@@ -1,4 +1,4 @@
-package com.cardinfolink.showmoney.settings;
+package com.cardinfolink.showmoney.ui.orders;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -15,7 +15,8 @@ import butterknife.ButterKnife;
  * Created by jie on 2016/12/23.
  */
 
-public class SettingsFragment extends BaseFragment {
+public class OrdersFragment extends BaseFragment {
+
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -25,7 +26,7 @@ public class SettingsFragment extends BaseFragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.settings_layout, container, false);
+        View view = inflater.inflate(R.layout.orders_layout, container, false);
         ButterKnife.bind(this, view);
         return view;
     }
@@ -40,4 +41,5 @@ public class SettingsFragment extends BaseFragment {
     public void onDestroy() {
         super.onDestroy();
     }
+
 }

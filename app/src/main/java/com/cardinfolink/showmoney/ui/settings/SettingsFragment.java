@@ -1,35 +1,21 @@
-package com.cardinfolink.showmoney.orders;
+package com.cardinfolink.showmoney.ui.settings;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.text.SpannableString;
-import android.text.Spanned;
-import android.text.style.AbsoluteSizeSpan;
-import android.text.style.SuperscriptSpan;
-import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.cardinfolink.showmoney.R;
 import com.cardinfolink.showmoney.base.BaseFragment;
 
-import java.math.BigDecimal;
-import java.util.Locale;
-import java.util.Stack;
-
-import butterknife.Bind;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 /**
  * Created by jie on 2016/12/23.
  */
 
-public class OrdersFragment extends BaseFragment {
-
+public class SettingsFragment extends BaseFragment {
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -39,7 +25,7 @@ public class OrdersFragment extends BaseFragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.orders_layout, container, false);
+        View view = inflater.inflate(R.layout.settings_layout, container, false);
         ButterKnife.bind(this, view);
         return view;
     }
@@ -54,5 +40,4 @@ public class OrdersFragment extends BaseFragment {
     public void onDestroy() {
         super.onDestroy();
     }
-
 }

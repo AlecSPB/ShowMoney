@@ -127,16 +127,23 @@
 
     </android.support.v7.widget.GridLayout>
 
-    <TextView
-        android:id="@+id/tv_amount"
-        android:paddingLeft="8dp"
-        android:paddingRight="8dp"
-        android:layout_marginTop="20dp"
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/gl_keyboard"
         android:layout_marginBottom="0.1dp"
+
+        android:layout_marginTop="20dp"
         android:background="@android:color/white"
-        android:gravity="end|center_vertical" />
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp">
+
+        <TextView
+            android:id="@+id/tv_amount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical|end"
+            android:gravity="end|center_vertical" />
+    </FrameLayout>
 
 </RelativeLayout>

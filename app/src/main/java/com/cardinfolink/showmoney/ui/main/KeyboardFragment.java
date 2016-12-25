@@ -1,4 +1,4 @@
-package com.cardinfolink.showmoney.main;
+package com.cardinfolink.showmoney.ui.main;
 
 import android.graphics.Color;
 import android.os.Bundle;
@@ -8,13 +8,19 @@ import android.text.Spanned;
 import android.text.style.AbsoluteSizeSpan;
 import android.text.style.SuperscriptSpan;
 import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.RotateAnimation;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.cardinfolink.showmoney.R;
 import com.cardinfolink.showmoney.base.BaseFragment;
+import com.cardinfolink.showmoney.util.Constants;
+import com.cardinfolink.showmoney.util.CustomToast;
 
 import java.math.BigDecimal;
 import java.util.Locale;
@@ -113,10 +119,39 @@ public class KeyboardFragment extends BaseFragment {
     }
 
     private void gotoQRPay() {
-
+        if (observable != null && validAndAlert()) {
+            Bundle bundle = new Bundle();
+            bundle.putString(Constants.AMOUNT, getFormatAmount());
+            observable.update(bundle, GotoQRPayFragment.class);
+        }
     }
 
-    private String getAmount() {
+    /**
+     * 校验金额是否合法
+     *
+     * @return
+     */
+    private boolean validAndAlert() {
+        String amount = getFormatAmount();
+        Double d = Double.parseDouble(amount);
+        if (d <= 0) {
+            new CustomToast.Builder(getActivity())
+                    .setGravity(Gravity.TOP | Gravity.FILL_HORIZONTAL, 0, 0)
+                    .setDuration(Toast.LENGTH_SHORT)
+                    .buildYellowBackground("金额不能为零")
+                    .build()
+                    .show();
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * 将堆栈中的字符取出并组成字符串
+     *
+     * @return
+     */
+    private String stackToString() {
         String amount = "";
         if (!amountStack.isEmpty()) {
             for (String num : amountStack) {
@@ -126,6 +161,18 @@ public class KeyboardFragment extends BaseFragment {
             amount = "0";
         }
         return amount;
+    }
+
+    /**
+     * 输入字符装换成金额
+     *
+     * @return
+     */
+    private String getFormatAmount() {
+        String s = stackToString();
+        BigDecimal bigDecimal = new BigDecimal(s);
+        bigDecimal = bigDecimal.divide(new BigDecimal("100"), 2, BigDecimal.ROUND_HALF_DOWN);
+        return bigDecimal.toString();
     }
 
     private void pop() {
@@ -144,14 +191,18 @@ public class KeyboardFragment extends BaseFragment {
 
     private void push(String num) {
         if (amountStack.size() >= 12 || ("0".equals(num) && amountStack.isEmpty())) {
+            addShakeAnim();
             return;
         }
         amountStack.push(num);
         formatAmount();
     }
 
+    /**
+     * 格式化输入字符，并显示出来
+     */
     private void formatAmount() {
-        String amount = getAmount();
+        String amount = stackToString();
         BigDecimal bigDecimal = new BigDecimal(amount);
         bigDecimal = bigDecimal.divide(new BigDecimal("100"), 2, BigDecimal.ROUND_HALF_DOWN).setScale(2, BigDecimal.ROUND_HALF_DOWN);
         String format = String.format(Locale.getDefault(), "%s %s", AMOUNT_SIGN, bigDecimal.toString());
@@ -187,5 +238,31 @@ public class KeyboardFragment extends BaseFragment {
         tvAmount.setText(ss);
         tvAmount.setTextSize(TypedValue.COMPLEX_UNIT_SP, textSize);
         tvAmount.setTextColor(textColor);
+        if (amountStack.isEmpty()) {
+            addShakeAnim();
+        }
+    }
+
+    /**
+     * 添加抖动动画
+     */
+    private void addShakeAnim() {
+        Animation rotateAnim = new RotateAnimation(-2, 2, Animation.RELATIVE_TO_SELF, 0.5f,
+                Animation.RELATIVE_TO_SELF, 0.5f);
+
+        rotateAnim.setDuration(20);
+        rotateAnim.setRepeatMode(Animation.REVERSE);
+        rotateAnim.setRepeatCount(3);
+
+        tvAmount.clearAnimation();
+        tvAmount.startAnimation(rotateAnim);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (resumeObservable != null) {
+            resumeObservable.update(getString(R.string.str_get_money), false);
+        }
     }
 }

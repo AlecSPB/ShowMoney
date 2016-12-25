@@ -23,4 +23,5 @@
     <string name="str_settings">设置</string>
     <string name="str_orders">订单</string>
     <string name="str_reund">退款</string>
+    <string name="str_qr_payment">条码支付</string>
 </resources>
