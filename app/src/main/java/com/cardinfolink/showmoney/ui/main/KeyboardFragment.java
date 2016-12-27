@@ -1,8 +1,10 @@
 package com.cardinfolink.showmoney.ui.main;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.AbsoluteSizeSpan;
@@ -129,11 +131,9 @@ public class KeyboardFragment extends BaseFragment {
     }
 
     private void gotoQRPay() {
-        if (observable != null && validAndAlert()) {
-            Bundle bundle = new Bundle();
-            bundle.putString(Constants.AMOUNT, getFormatAmount());
-            observable.update(bundle, GotoQRPayFragment.class);
-        }
+        Intent intent = new Intent(getActivity(), GotoQRPayActivity.class);
+        intent.putExtra(Constants.AMOUNT, getFormatAmount());
+        startActivity(intent);
     }
 
     /**

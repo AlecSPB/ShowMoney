@@ -15,10 +15,8 @@ import android.widget.TextView;
 
 import com.cardinfolink.showmoney.base.BaseFragment;
 import com.cardinfolink.showmoney.listener.OnFragmentResumeObservable;
-import com.cardinfolink.showmoney.listener.OnFragmentToActivityObservable;
 import com.cardinfolink.showmoney.model.User;
 import com.cardinfolink.showmoney.ui.about.AboutFragment;
-import com.cardinfolink.showmoney.ui.main.GotoQRPayFragment;
 import com.cardinfolink.showmoney.ui.main.KeyboardFragment;
 import com.cardinfolink.showmoney.ui.main.LeftMenuFragment;
 import com.cardinfolink.showmoney.ui.main.RightMenuFragment;
@@ -29,7 +27,7 @@ import com.cardinfolink.showmoney.util.AnimatedFragmentWrapper;
 
 public class MainActivity extends AppCompatActivity
         implements DrawerLayout.DrawerListener, LeftMenuFragment.OnLeftMenuSelectedListener,
-        OnFragmentToActivityObservable, OnFragmentResumeObservable {
+        OnFragmentResumeObservable {
 
     private DrawerLayout drawer;
     private KeyboardFragment keyboardFragment;
@@ -277,33 +275,15 @@ public class MainActivity extends AppCompatActivity
         return user;
     }
 
-    /**
-     * 从fragment中去跳转添加新的Fragment
-     *
-     * @param bundle
-     * @param cls
-     */
-    @Override
-    public void update(Bundle bundle, Class cls) {
-        if (cls == GotoQRPayFragment.class) {
-            GotoQRPayFragment gotoQRPayFragment = new GotoQRPayFragment();
-            gotoQRPayFragment.setArguments(bundle);
-            addNewFragment(gotoQRPayFragment, GotoQRPayFragment.class.getSimpleName());
-        }
-    }
 
     private void addNewFragment(Fragment fragment, String tag) {
         if (fragment == null) {
             return;
         }
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-//        transaction.hide(nextShowFragment);
-//        transaction.add(R.id.fl_content, fragment, tag);
-//        transaction.addToBackStack(tag);
-//        transaction.commit();
         new AnimatedFragmentWrapper(transaction)
                 .hide(showingFragment)
-                .setCustomAnims(R.anim.fragment_slide_right_enter, R.anim.fragment_slide_left_exit, R.anim.fragment_slide_left_enter, R.anim.fragment_slide_right_exit)
+                .setCustomAnims(R.anim.slide_right_enter, R.anim.slide_left_exit, R.anim.slide_left_enter, R.anim.slide_right_exit)
                 .add(R.id.fl_content, fragment, tag)
                 .addToBackStack(tag)
                 .commit();
