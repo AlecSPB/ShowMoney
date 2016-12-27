@@ -11,6 +11,15 @@ public class User implements Parcelable {
 
     private String userStoreId;
     private String storeAssistId;
+    private String icon;
+
+    public String getIcon() {
+        return icon;
+    }
+
+    public void setIcon(String icon) {
+        this.icon = icon;
+    }
 
     public String getUserStoreId() {
         return userStoreId;
@@ -28,6 +37,9 @@ public class User implements Parcelable {
         this.storeAssistId = storeAssistId;
     }
 
+    public User() {
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -37,17 +49,16 @@ public class User implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(this.userStoreId);
         dest.writeString(this.storeAssistId);
-    }
-
-    public User() {
+        dest.writeString(this.icon);
     }
 
     protected User(Parcel in) {
         this.userStoreId = in.readString();
         this.storeAssistId = in.readString();
+        this.icon = in.readString();
     }
 
-    public static final Parcelable.Creator<User> CREATOR = new Parcelable.Creator<User>() {
+    public static final Creator<User> CREATOR = new Creator<User>() {
         @Override
         public User createFromParcel(Parcel source) {
             return new User(source);

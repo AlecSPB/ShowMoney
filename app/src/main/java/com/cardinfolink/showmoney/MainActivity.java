@@ -8,9 +8,11 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.cardinfolink.showmoney.base.BaseFragment;
@@ -21,9 +23,12 @@ import com.cardinfolink.showmoney.ui.main.KeyboardFragment;
 import com.cardinfolink.showmoney.ui.main.LeftMenuFragment;
 import com.cardinfolink.showmoney.ui.main.RightMenuFragment;
 import com.cardinfolink.showmoney.ui.orders.OrdersFragment;
+import com.cardinfolink.showmoney.ui.orders.SearchFragment;
 import com.cardinfolink.showmoney.ui.refund.RefundFragment;
 import com.cardinfolink.showmoney.ui.settings.SettingsFragment;
 import com.cardinfolink.showmoney.util.AnimatedFragmentWrapper;
+
+import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity
         implements DrawerLayout.DrawerListener, LeftMenuFragment.OnLeftMenuSelectedListener,
@@ -41,6 +46,7 @@ public class MainActivity extends AppCompatActivity
     BaseFragment nextShowFragment, showingFragment;
 
     TextView tvTitle, tvRightMenu;
+    ImageView ivUserIcon;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,13 +74,7 @@ public class MainActivity extends AppCompatActivity
     private void initTitle() {
         tvTitle = (TextView) findViewById(R.id.tv_title);
         tvRightMenu = (TextView) findViewById(R.id.tv_right_menu);
-
-        tvRightMenu.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                drawer.openDrawer(GravityCompat.END);
-            }
-        });
+        ivUserIcon = (ImageView) findViewById(R.id.iv_user_icon);
     }
 
     private void initMenus() {
@@ -82,6 +82,9 @@ public class MainActivity extends AppCompatActivity
         transaction.replace(R.id.fl_left, new LeftMenuFragment(), "START");
         transaction.replace(R.id.fl_right, new RightMenuFragment(), "END");
         transaction.commit();
+        user = new User();
+        user.setStoreAssistId("10000000000000000001");
+        user.setUserStoreId("0010");
     }
 
     @Override
@@ -111,17 +114,27 @@ public class MainActivity extends AppCompatActivity
             return;
         }
         getSupportFragmentManager().beginTransaction().show(nextShowFragment).commit();
+        int item = -1;
+        String title = "";
         if (nextShowFragment instanceof KeyboardFragment) {
-            setActionBar(getString(R.string.str_get_money), false);
+            item = 0;
+            title = getString(R.string.str_get_money);
         } else if (nextShowFragment instanceof RefundFragment) {
+            item = 1;
+            title = getString(R.string.str_reund);
             setActionBar(getString(R.string.str_reund), false);
         } else if (nextShowFragment instanceof OrdersFragment) {
-            setActionBar(getString(R.string.str_orders), false);
+            item = 2;
+            title = getString(R.string.str_orders);
         } else if (nextShowFragment instanceof SettingsFragment) {
-            setActionBar(getString(R.string.str_settings), false);
+            item = 3;
+            title = getString(R.string.str_settings);
         } else if (nextShowFragment instanceof AboutFragment) {
-            setActionBar(getString(R.string.str_about), false);
+            item = 4;
+            title = getString(R.string.str_about);
         }
+        setActionBar(title, false);
+        setRightInfo(item);
     }
 
     @Override
@@ -172,12 +185,10 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onDrawerOpened(View drawerView) {
-
     }
 
     @Override
     public void onDrawerClosed(View drawerView) {
-
     }
 
     @Override
@@ -194,9 +205,8 @@ public class MainActivity extends AppCompatActivity
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         String tag = "";
         String title = getString(R.string.app_name);
-        if (nextShowFragment != null) {
-            transaction.show(nextShowFragment);
-        }
+        drawer.closeDrawer(GravityCompat.START);
+
         switch (item) {
             case 0:
                 tag = KeyboardFragment.class.getSimpleName();
@@ -241,22 +251,76 @@ public class MainActivity extends AppCompatActivity
             default:
                 break;
         }
-        if (getSupportFragmentManager().findFragmentByTag(tag) != null) {
-            transaction.show(nextShowFragment);
-        } else {
-            transaction.add(R.id.fl_content, nextShowFragment, tag);
-        }
-        if (showingFragment != null) {
-            transaction.hide(showingFragment);
-        }
-//        transaction.addToBackStack(tag);
-        transaction.commit();
+
+        setRightInfo(item);
+
+        new AnimatedFragmentWrapper(transaction)
+                .replace(R.id.fl_content, nextShowFragment, tag)
+                .show(nextShowFragment)
+                .commit();
+
         clearBackStack();
         setActionBar(title, false);
-        drawer.closeDrawer(GravityCompat.START);
-
         showingFragment = nextShowFragment;
     }
+
+    private void setRightInfo(int item) {
+        View.OnClickListener onClickListener = null;
+
+
+        switch (item) {
+            case 0:
+                tvRightMenu.setText(String.format(Locale.getDefault(), "%s%n%s", "", user.getUserStoreId()));
+                ivUserIcon.setImageResource(R.drawable.ic_menu_share);
+                onClickListener = new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        drawer.openDrawer(Gravity.END);
+                    }
+                };
+                break;
+            case 1:
+                tvRightMenu.setText(null);
+                ivUserIcon.setImageDrawable(null);
+                onClickListener = null;
+                break;
+            case 2:
+                tvRightMenu.setText(null);
+                ivUserIcon.setImageResource(R.mipmap.ic_modify);
+                onClickListener = new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        SearchFragment searchFragment = new SearchFragment();
+
+                        new AnimatedFragmentWrapper(getSupportFragmentManager().beginTransaction())
+                                .setCustomAnims(R.anim.slide_right_enter, R.anim.slide_left_exit)
+                                .add(R.id.fl_content, searchFragment, SearchFragment.class.getSimpleName())
+                                .addToBackStack(SearchFragment.class.getSimpleName())
+                                .commit();
+                        setRightInfo(6);
+                    }
+                };
+                break;
+            case 3:
+                tvRightMenu.setText(null);
+                ivUserIcon.setImageDrawable(null);
+                onClickListener = null;
+                break;
+            case 4:
+                tvRightMenu.setText(null);
+                ivUserIcon.setImageDrawable(null);
+                onClickListener = null;
+                break;
+            default:
+                tvRightMenu.setText(null);
+                ivUserIcon.setImageDrawable(null);
+                onClickListener = null;
+                break;
+        }
+        tvRightMenu.setOnClickListener(onClickListener);
+        ivUserIcon.setOnClickListener(onClickListener);
+    }
+
 
     /**
      * 清除回退栈
