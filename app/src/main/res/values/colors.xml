@@ -42,4 +42,6 @@
     <color name="colorRipple">#FF999999</color>
     <color name="colorPreAuthText">#43474E</color>
     <color name="colorLiquidationDivider">#D5D5D5</color>
+    <color name="colorKeyPressed">#2196f3</color>
 </resources>
+

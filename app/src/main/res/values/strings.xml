@@ -21,7 +21,7 @@
     <string name="str_get_money">收款</string>
     <string name="str_about">关于</string>
     <string name="str_settings">设置</string>
-    <string name="str_orders">订单</string>
+    <string name="str_orders">账单</string>
     <string name="str_reund">退款</string>
 
 
@@ -75,4 +75,5 @@
 
     <string name="string_consume_amount">消费金额</string>
     <string name="string_consume_label">¥0.00</string>
+    <string name="str_qr_payment">条码支付</string>
 </resources>
