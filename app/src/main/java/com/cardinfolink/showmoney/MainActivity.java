@@ -195,6 +195,9 @@ public class MainActivity extends AppCompatActivity
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         String tag = "";
         String title = getString(R.string.app_name);
+        if (currentFragment != null) {
+            transaction.show(currentFragment);
+        }
         switch (item) {
             case 0:
                 tag = KeyboardFragment.class.getSimpleName();
@@ -239,12 +242,25 @@ public class MainActivity extends AppCompatActivity
             default:
                 break;
         }
-        transaction.replace(R.id.fl_content, currentFragment, tag);
-        transaction.show(currentFragment);
+        if (getSupportFragmentManager().findFragmentByTag(tag) != null){
+            transaction.show(currentFragment);
+        }else {
+            transaction.add(R.id.fl_content, currentFragment, tag);
+        }
 //        transaction.addToBackStack(tag);
         transaction.commit();
+        clearBackStack();
         setActionBar(title, false);
         drawer.closeDrawer(GravityCompat.START);
+    }
+
+    /**
+     * 清除回退栈
+     */
+    private void clearBackStack() {
+        while (getSupportFragmentManager().getBackStackEntryCount() > 0) {
+            super.onBackPressed();
+        }
     }
 
     public void setUser(User user) {

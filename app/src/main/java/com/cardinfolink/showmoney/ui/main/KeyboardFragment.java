@@ -44,6 +44,7 @@ public class KeyboardFragment extends BaseFragment {
     private final String AMOUNT_SIGN = "€";
 
     private Stack<String> amountStack;
+    private View view;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -54,7 +55,14 @@ public class KeyboardFragment extends BaseFragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.keyboard_layout, container, false);
+        if (view == null) {
+            view = inflater.inflate(R.layout.keyboard_layout, container, false);
+        } else {
+            ViewGroup parent = (ViewGroup) view.getParent();
+            if (parent != null) {
+                parent.removeView(view);
+            }
+        }
         ButterKnife.bind(this, view);
         formatAmount();
         return view;
@@ -141,6 +149,7 @@ public class KeyboardFragment extends BaseFragment {
                     .buildYellowBackground("金额不能为零")
                     .build()
                     .show();
+
             return false;
         }
         return true;
