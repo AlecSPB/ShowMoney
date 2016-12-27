@@ -7,4 +7,74 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="key_height">54dp</dimen>
+
+
+    <!--这里的space 值咋这么怪,谷歌建议我们间隙值   为8的倍数,文字间距为4的倍数-->
+    <!--常用padding，margin-->
+    <dimen name="space_2">2dp</dimen>
+    <dimen name="space_5">5dp</dimen>
+    <dimen name="space_8">8dp</dimen>
+    <dimen name="space_10">10dp</dimen>
+    <dimen name="space_15">15dp</dimen>
+    <dimen name="space_20">20dp</dimen>
+    <dimen name="space_24">24dp</dimen>
+    <dimen name="space_30">30dp</dimen>
+    <dimen name="space_36">36dp</dimen>
+    <dimen name="space_40">40dp</dimen>
+    <dimen name="space_42">42dp</dimen>
+    <dimen name="space_48">48dp</dimen>
+    <dimen name="space_50">50dp</dimen>
+    <dimen name="space_60">60dp</dimen>
+    <dimen name="space_64">64dp</dimen>
+    <dimen name="space_70">70dp</dimen>
+    <dimen name="space_72">72dp</dimen>
+    <dimen name="space_80">80dp</dimen>
+    <dimen name="space_90">90dp</dimen>
+    <dimen name="space_100">100dp</dimen>
+    <dimen name="space_110">110dp</dimen>
+    <dimen name="space_120">120dp</dimen>
+    <dimen name="space_130">130dp</dimen>
+    <dimen name="space_140">140dp</dimen>
+    <dimen name="space_150">150dp</dimen>
+    <dimen name="space_160">160dp</dimen>
+    <dimen name="space_170">170dp</dimen>
+    <dimen name="space_180">180dp</dimen>
+    <dimen name="space_190">190dp</dimen>
+    <dimen name="space_200">200dp</dimen>
+    <dimen name="space_210">210dp</dimen>
+    <dimen name="space_220">220dp</dimen>
+    <dimen name="space_230">230dp</dimen>
+    <dimen name="space_240">240dp</dimen>
+    <dimen name="space_250">250dp</dimen>
+    <dimen name="space_260">260dp</dimen>
+    <dimen name="space_270">270dp</dimen>
+    <dimen name="space_280">280dp</dimen>
+    <dimen name="space_290">290dp</dimen>
+    <dimen name="space_300">300dp</dimen>
+    <dimen name="space_310">310dp</dimen>
+    <dimen name="space_320">320dp</dimen>
+
+
+    <dimen name="ksw_md_thumb_ripple_size">42dp</dimen>
+    <dimen name="ksw_md_thumb_solid_inset">11dp</dimen>
+    <dimen name="ksw_md_thumb_shadow_inset">11dp</dimen>
+    <dimen name="ksw_md_thumb_shadow_inset_top">11dp</dimen>
+    <dimen name="ksw_md_thumb_shadow_inset_bottom">10dp</dimen>
+
+    <dimen name="ksw_md_thumb_solid_size">20dp</dimen>
+    <dimen name="ksw_md_thumb_shadow_size">21dp</dimen>
+    <dimen name="ksw_md_thumb_shadow_offset">2dp</dimen>
+
+    <dimen name="actionBarSize">48dp</dimen>
+
+
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <!--字体大小-->
+    <dimen name="text_small_size">12sp</dimen>
+    <dimen name="text_normal_size">14sp</dimen>
+    <dimen name="text_middle_size">16sp</dimen>
+    <dimen name="text_small_large_size">18sp</dimen>
+    <dimen name="text_large_size">20sp</dimen>
+    <dimen name="keyboard_text_size">24sp</dimen>
+    <dimen name="text_super_large_size">36sp</dimen>
 </resources>

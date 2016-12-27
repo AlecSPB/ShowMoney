@@ -3,4 +3,43 @@
     <color name="colorPrimary">#cccccc</color>
     <color name="colorPrimaryDark">#cccccc</color>
     <color name="colorAccent">#FF4081</color>
+
+    <color name="light_black">#666666</color>
+    <color name="consume_success_color">#398B2B</color>
+    <color name="consume_failure_color">#E4246C</color>
+    <color name="result_confirm_color">#43474E</color>
+    <color name="consume_divider">#EFF0F6</color>
+    <color name="light_grey">#A0A0A0</color>
+    <color name="main_pager_divider_color">#D1D3DF</color>
+    <color name="calculator_num_selected_color">#E7E3F2</color>
+    <color name="calculator_confirm_color">#FDB960</color>
+    <color name="calculator_confirm_selected_color">#DF9849</color>
+    <color name="calculator_divider_color">#E0E0ED</color>
+    <color name="consume_keyboard_dark_divider">#1B1B1B</color>
+    <color name="radio_checked_color">#DDDEE8</color>
+
+    <color name="viewfinder_laser">#ffcc0000</color> <!-- Android standard ICS color -->
+    <color name="viewfinder_mask">#60000000</color>
+    <color name="possible_result_points">#c0ffbd21</color> <!-- Android standard ICS color -->
+    <color name="result_view">#b0000000</color>
+    <color name="color_bg_normal">#BF0307</color>
+    <color name="color_pre_auth_text">#FDBC00</color>
+    <color name="calculator_input_color">#DEFCFF</color>
+
+    <color name="ksw_md_ripple_normal">#1E000000</color>
+    <color name="ksw_md_ripple_checked">#33019285</color>
+
+    <color name="ksw_md_solid_shadow">#33000000</color>
+
+    <color name="ksw_md_solid_normal">#ECECEC</color>
+    <color name="ksw_md_solid_checked">#019285</color>e
+    <color name="ksw_md_solid_disable">#FFFFFF</color>
+    <color name="ksw_md_solid_checked_disable">#aaaaaa</color>
+
+    <color name="banner_red">#ffcc0000</color>
+    <color name="banner_light_gray">#d4cdcd</color>
+
+    <color name="colorRipple">#FF999999</color>
+    <color name="colorPreAuthText">#43474E</color>
+    <color name="colorLiquidationDivider">#D5D5D5</color>
 </resources>

@@ -1,5 +1,7 @@
 package com.cardinfolink.showmoney.main;
 
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -15,6 +17,7 @@ import android.widget.TextView;
 
 import com.cardinfolink.showmoney.R;
 import com.cardinfolink.showmoney.base.BaseFragment;
+import com.cardinfolink.showmoney.constans.Constants;
 
 import java.math.BigDecimal;
 import java.util.Locale;
@@ -23,6 +26,7 @@ import java.util.Stack;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import zxing.activity.CaptureActivity;
 
 /**
  * Created by jie on 2016/12/23.
@@ -38,6 +42,11 @@ public class KeyboardFragment extends BaseFragment {
     private final String AMOUNT_SIGN = "€";
 
     private Stack<String> amountStack;
+    private onQrSelectedListener mListener;
+
+    public interface onQrSelectedListener {
+        public void onQrSelectedListener(String amount);
+    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -58,6 +67,18 @@ public class KeyboardFragment extends BaseFragment {
     public void onDestroyView() {
         super.onDestroyView();
         ButterKnife.unbind(this);
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        try {
+            mListener = (onQrSelectedListener) context;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(context.toString() + " must implement onQrSelectedListener");
+
+        }
+
     }
 
     @Override
@@ -113,6 +134,7 @@ public class KeyboardFragment extends BaseFragment {
     }
 
     private void gotoQRPay() {
+        mListener.onQrSelectedListener(getAmount());
 
     }
 

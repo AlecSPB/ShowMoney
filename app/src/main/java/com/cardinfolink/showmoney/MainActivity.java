@@ -1,5 +1,6 @@
 package com.cardinfolink.showmoney;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentTransaction;
@@ -11,6 +12,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.cardinfolink.showmoney.about.AboutFragment;
 import com.cardinfolink.showmoney.base.BaseFragment;
@@ -19,8 +21,10 @@ import com.cardinfolink.showmoney.orders.OrdersFragment;
 import com.cardinfolink.showmoney.refund.RefundFragment;
 import com.cardinfolink.showmoney.settings.SettingsFragment;
 
+import zxing.activity.CaptureActivity;
+
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, DrawerLayout.DrawerListener {
+        implements NavigationView.OnNavigationItemSelectedListener, DrawerLayout.DrawerListener, KeyboardFragment.onQrSelectedListener {
 
     private DrawerLayout drawer;
     private KeyboardFragment keyboardFragment;
@@ -89,9 +93,9 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         handleItemSelected(item);
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)){
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
-        }else if (drawer.isDrawerOpen(GravityCompat.END)){
+        } else if (drawer.isDrawerOpen(GravityCompat.END)) {
             drawer.closeDrawer(GravityCompat.END);
         }
         return true;
@@ -191,5 +195,21 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onDrawerStateChanged(int newState) {
 
+    }
+
+    @Override
+    public void onQrSelectedListener(String amount) {
+        Intent intent = new Intent(this, CaptureActivity.class);
+        startActivityForResult(intent, 0);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+            Bundle bundle = data.getExtras();
+            String scanResult = bundle.getString("result");
+            Toast.makeText(this, scanResult, Toast.LENGTH_LONG).show();
+        }
     }
 }
