@@ -13,6 +13,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
+import android.view.animation.AnimationSet;
+import android.view.animation.CycleInterpolator;
 import android.view.animation.RotateAnimation;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -256,15 +258,27 @@ public class KeyboardFragment extends BaseFragment {
      * 添加抖动动画
      */
     private void addShakeAnim() {
-        Animation rotateAnim = new RotateAnimation(-2, 2, Animation.RELATIVE_TO_SELF, 0.5f,
-                Animation.RELATIVE_TO_SELF, 0.5f);
+        AnimationSet set = new AnimationSet(true);
 
-        rotateAnim.setDuration(20);
-        rotateAnim.setRepeatMode(Animation.REVERSE);
-        rotateAnim.setRepeatCount(3);
+        Animation rotateAnim1 = new RotateAnimation(-2, 2, Animation.RELATIVE_TO_SELF, 0.5f,
+                Animation.RELATIVE_TO_SELF, 0.5f);
+        rotateAnim1.setInterpolator(new CycleInterpolator(5));
+
+        Animation rotateAnim2 = new RotateAnimation(-1, 1, Animation.RELATIVE_TO_SELF, 0.2f,
+                Animation.RELATIVE_TO_SELF, 0.2f);
+
+        Animation rotateAnim3 = new RotateAnimation(-1, 1, Animation.RELATIVE_TO_SELF, 0.8f,
+                Animation.RELATIVE_TO_SELF, 0.8f);
+
+        set.addAnimation(rotateAnim1);
+//        set.addAnimation(rotateAnim2);
+//        set.addAnimation(rotateAnim3);
+        set.setDuration(20);
+        set.setRepeatMode(Animation.REVERSE);
+        set.setRepeatCount(3);
 
         tvAmount.clearAnimation();
-        tvAmount.startAnimation(rotateAnim);
+        tvAmount.startAnimation(set);
     }
 
     @Override

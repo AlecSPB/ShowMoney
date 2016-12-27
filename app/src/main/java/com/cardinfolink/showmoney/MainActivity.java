@@ -25,6 +25,7 @@ import com.cardinfolink.showmoney.ui.main.RightMenuFragment;
 import com.cardinfolink.showmoney.ui.orders.OrdersFragment;
 import com.cardinfolink.showmoney.ui.refund.RefundFragment;
 import com.cardinfolink.showmoney.ui.settings.SettingsFragment;
+import com.cardinfolink.showmoney.util.AnimatedFragmentWrapper;
 
 public class MainActivity extends AppCompatActivity
         implements DrawerLayout.DrawerListener, LeftMenuFragment.OnLeftMenuSelectedListener,
@@ -39,7 +40,7 @@ public class MainActivity extends AppCompatActivity
 
     private User user;
 
-    BaseFragment currentFragment = null;
+    BaseFragment nextShowFragment, showingFragment;
 
     TextView tvTitle, tvRightMenu;
 
@@ -108,19 +109,19 @@ public class MainActivity extends AppCompatActivity
      * 从开启的Fragment回到原类的状态
      */
     private void backToOriginStatue() {
-        if (currentFragment == null) {
+        if (nextShowFragment == null) {
             return;
         }
-        getSupportFragmentManager().beginTransaction().show(currentFragment).commit();
-        if (currentFragment instanceof KeyboardFragment) {
+        getSupportFragmentManager().beginTransaction().show(nextShowFragment).commit();
+        if (nextShowFragment instanceof KeyboardFragment) {
             setActionBar(getString(R.string.str_get_money), false);
-        } else if (currentFragment instanceof RefundFragment) {
+        } else if (nextShowFragment instanceof RefundFragment) {
             setActionBar(getString(R.string.str_reund), false);
-        } else if (currentFragment instanceof OrdersFragment) {
+        } else if (nextShowFragment instanceof OrdersFragment) {
             setActionBar(getString(R.string.str_orders), false);
-        } else if (currentFragment instanceof SettingsFragment) {
+        } else if (nextShowFragment instanceof SettingsFragment) {
             setActionBar(getString(R.string.str_settings), false);
-        } else if (currentFragment instanceof AboutFragment) {
+        } else if (nextShowFragment instanceof AboutFragment) {
             setActionBar(getString(R.string.str_about), false);
         }
     }
@@ -195,8 +196,8 @@ public class MainActivity extends AppCompatActivity
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         String tag = "";
         String title = getString(R.string.app_name);
-        if (currentFragment != null) {
-            transaction.show(currentFragment);
+        if (nextShowFragment != null) {
+            transaction.show(nextShowFragment);
         }
         switch (item) {
             case 0:
@@ -204,7 +205,7 @@ public class MainActivity extends AppCompatActivity
                 if (keyboardFragment == null) {
                     keyboardFragment = new KeyboardFragment();
                 }
-                currentFragment = keyboardFragment;
+                nextShowFragment = keyboardFragment;
                 title = getString(R.string.str_get_money);
                 break;
             case 1:
@@ -212,7 +213,7 @@ public class MainActivity extends AppCompatActivity
                 if (refundFragment == null) {
                     refundFragment = new RefundFragment();
                 }
-                currentFragment = refundFragment;
+                nextShowFragment = refundFragment;
                 title = getString(R.string.str_reund);
                 break;
             case 2:
@@ -220,7 +221,7 @@ public class MainActivity extends AppCompatActivity
                 if (ordersFragment == null) {
                     ordersFragment = new OrdersFragment();
                 }
-                currentFragment = ordersFragment;
+                nextShowFragment = ordersFragment;
                 title = getString(R.string.str_orders);
                 break;
             case 3:
@@ -228,7 +229,7 @@ public class MainActivity extends AppCompatActivity
                 if (settingsFragment == null) {
                     settingsFragment = new SettingsFragment();
                 }
-                currentFragment = settingsFragment;
+                nextShowFragment = settingsFragment;
                 title = getString(R.string.str_settings);
                 break;
             case 4:
@@ -236,22 +237,27 @@ public class MainActivity extends AppCompatActivity
                 if (aboutFragment == null) {
                     aboutFragment = new AboutFragment();
                 }
-                currentFragment = aboutFragment;
+                nextShowFragment = aboutFragment;
                 title = getString(R.string.str_about);
                 break;
             default:
                 break;
         }
-        if (getSupportFragmentManager().findFragmentByTag(tag) != null){
-            transaction.show(currentFragment);
-        }else {
-            transaction.add(R.id.fl_content, currentFragment, tag);
+        if (getSupportFragmentManager().findFragmentByTag(tag) != null) {
+            transaction.show(nextShowFragment);
+        } else {
+            transaction.add(R.id.fl_content, nextShowFragment, tag);
+        }
+        if (showingFragment != null) {
+            transaction.hide(showingFragment);
         }
 //        transaction.addToBackStack(tag);
         transaction.commit();
         clearBackStack();
         setActionBar(title, false);
         drawer.closeDrawer(GravityCompat.START);
+
+        showingFragment = nextShowFragment;
     }
 
     /**
@@ -291,10 +297,16 @@ public class MainActivity extends AppCompatActivity
             return;
         }
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.hide(currentFragment);
-        transaction.add(R.id.fl_content, fragment, tag);
-        transaction.addToBackStack(tag);
-        transaction.commit();
+//        transaction.hide(nextShowFragment);
+//        transaction.add(R.id.fl_content, fragment, tag);
+//        transaction.addToBackStack(tag);
+//        transaction.commit();
+        new AnimatedFragmentWrapper(transaction)
+                .hide(showingFragment)
+                .setCustomAnims(R.anim.fragment_slide_right_enter, R.anim.fragment_slide_left_exit, R.anim.fragment_slide_left_enter, R.anim.fragment_slide_right_exit)
+                .add(R.id.fl_content, fragment, tag)
+                .addToBackStack(tag)
+                .commit();
     }
 
     /**
