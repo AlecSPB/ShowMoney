@@ -1,10 +1,9 @@
 package com.cardinfolink.showmoney.ui.main;
 
-import android.content.Intent;
+import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.ActivityOptionsCompat;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.AbsoluteSizeSpan;
@@ -23,7 +22,6 @@ import android.widget.Toast;
 
 import com.cardinfolink.showmoney.R;
 import com.cardinfolink.showmoney.base.BaseFragment;
-import com.cardinfolink.showmoney.util.Constants;
 import com.cardinfolink.showmoney.util.CustomToast;
 
 import java.math.BigDecimal;
@@ -48,6 +46,13 @@ public class KeyboardFragment extends BaseFragment {
     private final String AMOUNT_SIGN = "€";
 
     private Stack<String> amountStack;
+    private onQrSelectedListener mListener;
+    private SpannableString ss;
+
+    public interface onQrSelectedListener {
+        public void onQrSelectedListener(String amount);
+    }
+
     private View view;
 
     @Override
@@ -76,6 +81,18 @@ public class KeyboardFragment extends BaseFragment {
     public void onDestroyView() {
         super.onDestroyView();
         ButterKnife.unbind(this);
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        try {
+            mListener = (onQrSelectedListener) context;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(context.toString() + " must implement onQrSelectedListener");
+
+        }
+
     }
 
     @Override
@@ -131,9 +148,7 @@ public class KeyboardFragment extends BaseFragment {
     }
 
     private void gotoQRPay() {
-        Intent intent = new Intent(getActivity(), GotoQRPayActivity.class);
-        intent.putExtra(Constants.AMOUNT, getFormatAmount());
-        startActivity(intent);
+        mListener.onQrSelectedListener(ss.toString());
     }
 
     /**
@@ -217,7 +232,7 @@ public class KeyboardFragment extends BaseFragment {
         BigDecimal bigDecimal = new BigDecimal(amount);
         bigDecimal = bigDecimal.divide(new BigDecimal("100"), 2, BigDecimal.ROUND_HALF_DOWN).setScale(2, BigDecimal.ROUND_HALF_DOWN);
         String format = String.format(Locale.getDefault(), "%s %s", AMOUNT_SIGN, bigDecimal.toString());
-        SpannableString ss = new SpannableString(format);
+        ss = new SpannableString(format);
 
         int textSize, signSize;//dp
         int textColor;

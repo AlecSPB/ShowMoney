@@ -1,10 +1,13 @@
 package com.cardinfolink.showmoney;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v4.widget.DrawerLayout.DrawerListener;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -14,6 +17,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.cardinfolink.showmoney.base.BaseFragment;
 import com.cardinfolink.showmoney.listener.OnFragmentResumeObservable;
@@ -30,10 +34,11 @@ import com.cardinfolink.showmoney.util.AnimatedFragmentWrapper;
 
 import java.util.Locale;
 
-public class MainActivity extends AppCompatActivity
-        implements DrawerLayout.DrawerListener, LeftMenuFragment.OnLeftMenuSelectedListener,
-        OnFragmentResumeObservable {
+import zxing.activity.CaptureActivity;
 
+public class MainActivity extends AppCompatActivity
+        implements NavigationView.OnNavigationItemSelectedListener, DrawerListener, KeyboardFragment.onQrSelectedListener, LeftMenuFragment.OnLeftMenuSelectedListener,
+        OnFragmentResumeObservable {
     private DrawerLayout drawer;
     private KeyboardFragment keyboardFragment;
     private RefundFragment refundFragment;
@@ -164,6 +169,18 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
+    public boolean onNavigationItemSelected(MenuItem item) {
+        // Handle navigation view item clicks here.
+        handleItemSelected(item.getItemId());
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else if (drawer.isDrawerOpen(GravityCompat.END)) {
+            drawer.closeDrawer(GravityCompat.END);
+        }
+        return true;
+    }
+
     public void onDrawerSlide(View drawerView, float slideOffset) {
         View mContent = drawer.getChildAt(0);
         float scale = 1 - slideOffset;
@@ -374,5 +391,20 @@ public class MainActivity extends AppCompatActivity
 //        }
     }
 
+    @Override
+    public void onQrSelectedListener(String amount) {
+        Intent intent = new Intent(this, CaptureActivity.class);
+        startActivityForResult(intent, 0);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+            Bundle bundle = data.getExtras();
+            String scanResult = bundle.getString("result");
+            Toast.makeText(this, scanResult, Toast.LENGTH_LONG).show();
+        }
+    }
 
 }

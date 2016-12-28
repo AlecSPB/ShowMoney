@@ -8,7 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.cardinfolink.showmoney.R;
-import com.cardinfolink.showmoney.adapter.OrderListAdapter;
 import com.cardinfolink.showmoney.base.BaseFragment;
 import com.cardinfolink.showmoney.model.Order;
 
@@ -23,7 +22,6 @@ public class SearchFragment extends BaseFragment {
     private View view;
     private RecyclerView rvOrders;
     private List<Order> orders;
-    private OrderListAdapter adapter;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
