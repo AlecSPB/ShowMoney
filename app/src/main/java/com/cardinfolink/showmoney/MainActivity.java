@@ -405,6 +405,7 @@ public class MainActivity extends AppCompatActivity
 //        }
     }
 
+
     @Override
     public void onQrSelectedListener(String amount) {
 //        View view = getLayoutInflater().inflate(R.layout.test, (ViewGroup) getCurrentFocus(),false);
@@ -417,21 +418,25 @@ public class MainActivity extends AppCompatActivity
         FreeSnackbar
                 .make(tvTitle, "Hehehe", FreeSnackbar.TOP, FreeSnackbar.LENGTH_SHORT)
                 .show();
+//
+//        FreeSnackbar freeSnackbar = FreeSnackbar.make(tvTitle,"hahaha",FreeSnackbar.LENGTH_SHORT);
+//        freeSnackbar.setLayoutGravity(FreeSnackbar.TOP);
+//        freeSnackbar.show();
     }
 
-//    private View setTopView() {
-//        FrameLayout contentView = (FrameLayout) findViewById(Window.ID_ANDROID_CONTENT);
-//        View view = new View(this);
-//        view.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 0));
-//        view.setId(R.id.temp_top_view);
-//        View tempView = contentView.findViewById(R.id.temp_top_view);
-//        if (tempView == null) {
-//            contentView.addView(view, 0);
-//        } else {
-//            view = tempView;
-//        }
-//        return view;
-//    }
+    private View setTopView() {
+        FrameLayout contentView = (FrameLayout) findViewById(Window.ID_ANDROID_CONTENT);
+        View view = new View(this);
+        view.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 0));
+        view.setId(R.id.temp_top_view);
+        View tempView = contentView.findViewById(R.id.temp_top_view);
+        if (tempView == null) {
+            contentView.addView(view, 0);
+        } else {
+            view = tempView;
+        }
+        return view;
+    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
