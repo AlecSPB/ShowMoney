@@ -30,7 +30,6 @@ dependencies {
     compile 'com.android.support:gridlayout-v7:24.2.1'
     compile 'com.jakewharton:butterknife:7.0.1'
     compile project(':libzxing')
-
-
-
+    compile 'com.androidadvance:topsnackbar:1.1.1'
+    compile 'com.jekyll.wu.widget:freesnackbar:1.0.1'
 }

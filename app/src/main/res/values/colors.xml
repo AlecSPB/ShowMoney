@@ -43,5 +43,6 @@
     <color name="colorPreAuthText">#43474E</color>
     <color name="colorLiquidationDivider">#D5D5D5</color>
     <color name="colorKeyPressed">#2196f3</color>
+    <color name="colorMenuPressed">#999999</color>
 </resources>
 

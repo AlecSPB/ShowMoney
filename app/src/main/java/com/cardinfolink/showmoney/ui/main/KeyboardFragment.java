@@ -34,6 +34,7 @@ import butterknife.OnClick;
 
 /**
  * Created by jie on 2016/12/23.
+ * 主界面，键盘
  */
 
 public class KeyboardFragment extends BaseFragment {

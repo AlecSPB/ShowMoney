@@ -13,6 +13,7 @@ import butterknife.ButterKnife;
 
 /**
  * Created by jie on 2016/12/23.
+ * 关于页面
  */
 
 public class AboutFragment extends BaseFragment {

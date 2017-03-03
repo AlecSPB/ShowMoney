@@ -15,6 +15,9 @@ import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.Window;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -31,10 +34,9 @@ import com.cardinfolink.showmoney.ui.orders.SearchFragment;
 import com.cardinfolink.showmoney.ui.refund.RefundFragment;
 import com.cardinfolink.showmoney.ui.settings.SettingsFragment;
 import com.cardinfolink.showmoney.util.AnimatedFragmentWrapper;
+import com.jekyll.wu.widget.FreeSnackbar;
 
 import java.util.Locale;
-
-import zxing.activity.CaptureActivity;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, DrawerListener, KeyboardFragment.onQrSelectedListener, LeftMenuFragment.OnLeftMenuSelectedListener,
@@ -50,8 +52,8 @@ public class MainActivity extends AppCompatActivity
 
     BaseFragment nextShowFragment, showingFragment;
 
-    TextView tvTitle, tvRightMenu;
-    ImageView ivUserIcon;
+    TextView tvTitle, tvRightMenu;//标题，右侧用户名
+    ImageView ivUserIcon;//用户图标
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,21 +69,22 @@ public class MainActivity extends AppCompatActivity
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-//        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-//        navigationView.setNavigationItemSelectedListener(this);
-//        MenuItem item = navigationView.getMenu().findItem(R.id.nav_get_money);
-//        handleItemSelected(item);
-
         initTitle();
         initMenus();
     }
 
+    /**
+     * 初始化标题
+     */
     private void initTitle() {
         tvTitle = (TextView) findViewById(R.id.tv_title);
         tvRightMenu = (TextView) findViewById(R.id.tv_right_menu);
         ivUserIcon = (ImageView) findViewById(R.id.iv_user_icon);
     }
 
+    /**
+     * 初始胡右侧菜单
+     */
     private void initMenus() {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.fl_left, new LeftMenuFragment(), "START");
@@ -112,7 +115,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     /**
-     * 从开启的Fragment回到原类的状态
+     * 从开启的Fragment回到原始的状态
      */
     private void backToOriginStatue() {
         if (nextShowFragment == null) {
@@ -181,6 +184,12 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
+    /**
+     * 滑动时的View动画
+     *
+     * @param drawerView
+     * @param slideOffset
+     */
     public void onDrawerSlide(View drawerView, float slideOffset) {
         View mContent = drawer.getChildAt(0);
         float scale = 1 - slideOffset;
@@ -218,6 +227,11 @@ public class MainActivity extends AppCompatActivity
         handleItemSelected(position);
     }
 
+    /**
+     * 处理左侧菜单点击事件
+     *
+     * @param item
+     */
     private void handleItemSelected(int item) {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         String tag = "";
@@ -393,9 +407,31 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onQrSelectedListener(String amount) {
-        Intent intent = new Intent(this, CaptureActivity.class);
-        startActivityForResult(intent, 0);
+//        View view = getLayoutInflater().inflate(R.layout.test, (ViewGroup) getCurrentFocus(),false);
+//        view.setFitsSystemWindows(false);
+//        PopupWindow pop = new PopupWindow(view, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, true);
+//        pop.setOutsideTouchable(true);
+//        pop.setBackgroundDrawable(new ColorDrawable(Color.WHITE));
+//
+//        pop.showAsDropDown(setTopView());
+        FreeSnackbar
+                .make(tvTitle, "Hehehe", FreeSnackbar.TOP, FreeSnackbar.LENGTH_SHORT)
+                .show();
     }
+
+//    private View setTopView() {
+//        FrameLayout contentView = (FrameLayout) findViewById(Window.ID_ANDROID_CONTENT);
+//        View view = new View(this);
+//        view.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 0));
+//        view.setId(R.id.temp_top_view);
+//        View tempView = contentView.findViewById(R.id.temp_top_view);
+//        if (tempView == null) {
+//            contentView.addView(view, 0);
+//        } else {
+//            view = tempView;
+//        }
+//        return view;
+//    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

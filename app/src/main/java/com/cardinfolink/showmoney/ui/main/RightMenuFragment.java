@@ -15,6 +15,7 @@ import com.cardinfolink.showmoney.base.BaseFragment;
 
 /**
  * Created by jie on 2016/12/25.
+ * 右侧菜单
  */
 
 public class RightMenuFragment extends BaseFragment {
@@ -31,7 +32,7 @@ public class RightMenuFragment extends BaseFragment {
         super.onCreate(savedInstanceState);
         DisplayMetrics dm = getResources().getDisplayMetrics();
         int w_screen = dm.widthPixels;
-        maxWidth = (int) (w_screen * 1.0f * 0.75);
+        maxWidth = (int) (w_screen * 1.0f * 0.75);//菜单最大宽度
     }
 
     @Nullable

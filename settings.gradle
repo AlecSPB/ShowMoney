@@ -1,1 +1,1 @@
-include ':app', ':mylibrary', ':libzxing'
+include ':app', ':libzxing', ':freesnackbar'
